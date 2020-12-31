@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  discovery:
+    image: docker.pkg.github.com/hpl002/pea-control-flow-discovery/discovery:latest
+    ports:
+      - "3050:8080"
+  web:
+    image: docker.pkg.github.com/hpl002/pea-gui/gui:latest
+    ports:
+      - "3000:80"     
+   
