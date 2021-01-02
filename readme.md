@@ -154,6 +154,8 @@ It is also important to mention that there is no definite way of correctly simul
 
 See section 4 in Business process simulation (Tumay, Kerim) for details on what considerations one should take.
 
+**Side note: full cirle**  
+Keen readers might recognize that many of these constructs overlap greatly with constructs from Object Oriented Programming (OOP). This overlap is not coincidental, because these constructs originate from Simula, the simulation language written by Kristen Nygaard in the early 1960s. 
 
 
 
@@ -172,7 +174,10 @@ Method for simulating behaviour and performance of real-life processes, faciliti
    1. random variables are use
 
 
-
+#### DES models
+Why use bpmn
+issues of using bpmn as a simulation model format
+list reasoning stated in the simulation master thesis
 
 #### Integrating perspectives into executable BPMN model
 
