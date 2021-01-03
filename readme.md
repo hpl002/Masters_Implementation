@@ -48,6 +48,7 @@ Works that describe how one can perform model enhancement through simulation and
 7. [Process Simulation Support in BPM Tools: The Case of BPMN](https://core.ac.uk/download/pdf/55638662.pdf)
 8. [Business Process Simulation - A Tool Survey](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.87.8291&rep=rep1&type=pdf)
 
+9. Discrete-Event Simulation and System Dynamics for Management Decision Making by Sally Brailsford, Leonid Churilov, and Brian Dangerfield 
 
 ## Concepts
 The functionality offerent by the services tie into the concepts and aims that we wish to fulfill. 
@@ -136,7 +137,7 @@ Used in the event where one needs more advanved modeling functions that provide 
    1. most processes experience interruptions that are planned or unplanned
    2. these may be stochastic
 5. User defined distributions and functions
-   1. may be used for represnting the variability associated with arrival times, activity times, or move times. Distributions may be discrete or continious
+   1. may be used for represnting the variability associated with arrival times, activity times, or move times. Distributions may be discrete or continuous
 
 **Performance metrics**  
 1. Cycle count
@@ -150,7 +151,7 @@ Used in the event where one needs more advanved modeling functions that provide 
 4. Activity Cost
    1. resources are defined by the number of available units, usage, cost, setup costs, and fixed costs. When an activity is defined, it is defined by the resources required to perform it, the duration of the activity, and the entities that it processes. 
 
-It is also important to mention that there is no definite way of correctly simulating a particular business process. Depending on the nature of the underlying process and business context we whould make intelligent choises in regards to how the simulation should be divided, modeled, and executed. For example, the modeling and simulation of a factory existing of automated machienery that runs continiously both day and night will have different requirements to that of a hospital which mostly revolves around human agents. Humand are far less predicatble then programmed robots and a hospital environment is very different from that of a automated factory.
+It is also important to mention that there is no definite way of correctly simulating a particular business process. Depending on the nature of the underlying process and business context we whould make intelligent choises in regards to how the simulation should be divided, modeled, and executed. For example, the modeling and simulation of a factory existing of automated machienery that runs continuously both day and night will have different requirements to that of a hospital which mostly revolves around human agents. Humand are far less predicatble then programmed robots and a hospital environment is very different from that of a automated factory.
 
 See section 4 in Business process simulation (Tumay, Kerim) for details on what considerations one should take.
 
@@ -160,18 +161,36 @@ Keen readers might recognize that many of these constructs overlap greatly with 
 
 
 ### Discrete Event Simulation
-Method for simulating behaviour and performance of real-life processes, facilities, or systems. This type of simulation system can be understood as a generic category description, and not a specific implementation. DES models a system as a series of discrete events that happen over time. The system assumes that there are no changes in state inbetween events. This allows for the simulation to jump from one event to the next in compressed time. DES can be described as comprising of a series of basic components and three main *world views.*
+Method for simulating behaviour and performance of real-life processes, facilities, or systems. Models queues as they progress through time. The simulated world is represented as a network of queues and activities in which entities or object flow through. Resources are assigned and shared in-between activities. The fundamental building blocks of DES systems are:
+1. Entities or objects
+   1. items that flow through the system
+   2. described by use of attributes
+      1. e.g.: type, dimensions, weight, priority, order number, color, etc.
+      2. These attribute can be used in influence system logic. E.g., assigned priority influences its ordering in a waiting queue.
+2. queues
+   1. areas where entitites wait to be worked on
+3. activities
+   1. areas where works is being performed on entities
+4. resources
+   1. required to be present to operate activities
 
-**Components**  
-1. State
-   1. One or more varaibles that describe properties of the system
-2. Clock
-   1. The current simulation time. In DES the time *hops* from one event to the next
-3. Events list
-   1. A list of simulation events that are pending. The events are described by the time in which they occur, and a type. Events that span a period of time may be modeled as a series of reoccuring events or be described by use of a interval
-   2. The list is sorted by event time
-4. Random-number generators
-   1. random variables are use
+Two other important concepts are time-handling and random sampling.
+
+Time progression can be modeled by use of a constant time step. This is often used when modeling continuous systems or phenomena such as fluid dynamics. There is however a  caveat, and that is that computers are not able to model continuous change in the true sense of the word, but rather discrete change in very small increments and thus giving the approximation of a continuous system. The big trade of being that the smaller the time incremenet the longer the execution time will be. However, small increments are needed for high accuracy. On the other hand we have discrete event simulation which focuses on the modeling of entities as they flow through a system, and is therefore not bound to a certain fixed interval. Approching such a systme with the continuous approach would lead to poor efficiency and lots of overhead provided that there would be many datapoints that contain no new information. 
+
+It is only when an activity has finished that the system state is updated. Typical events are an entity arries, an activity starts adn an activity ends. 
+
+A key and central element of most DES models is the need to represent randomness. This could occur in the length of time an activity takaes, the arrival rate of customers, entity attributes, or the route an entity will take through a system. While these values are stochastic we migh know an accurate distribution. For example, we might know that an activity takes between 5 and 10 minues, but we cannot accurately predict what the exact service time should be for a specific entity. In addition to knowing the range of some variable, we might also look at additional data to gather realistic frequencies. This will allow us to assign weights to more frequent occurances and thus get a more accurate stochastic distribution. 
+
+Generating random numbers accurately is more complex than simply generating a fitting value. Random numbers can be described by two properties: 
+1. uniformity - all values have the same probability
+2. indepedence - once the value has been chosen, it does not affect its probability of being chosen again
+
+Once we have created a set of random numbers we can use these to sample a distribution. This is accomplished by relating the right number of random numbers to each outcome in order to ensure that the outcome has the right probability of happening. For example if we have a split leading to two activities, purchase or not purchease. Where the former has a probability of 30 and the latter the probability of 70 then we can simply assign 30 and 70 percent of our generated numbers to its respective outcome. In practice this is very simple. For the activity with a 30% probability we can assign a range from 0.00 to 0.30 and for the activity with a 70% probability we can assign a range from 0.30 to 1.00. It is important that the numeber is read according to the ranges outer limits. For the 30% activity this would imply that the random number be greater than or equal to 0.00 whilst also being less than 0.30, more accurately described as 0.00<= *number* < 0.30. 
+
+While all numbers might noe be represented in the generated distribution, it still holds true provided that if we were to scale the size of the distribution to thousands of digits then the percentage of times each number occurs would be close to 1% each. 
+
+
 
 
 #### DES models
