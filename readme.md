@@ -50,6 +50,8 @@ Works that describe how one can perform model enhancement through simulation and
 
 9. Discrete-Event Simulation and System Dynamics for Management Decision Making by Sally Brailsford, Leonid Churilov, and Brian Dangerfield 
 
+10. Comparison of discrete event simulation tools in an academic environment
+
 ## Concepts
 The functionality offerent by the services tie into the concepts and aims that we wish to fulfill. 
 ### Mining different perspectives
@@ -156,7 +158,7 @@ It is also important to mention that there is no definite way of correctly simul
 See section 4 in Business process simulation (Tumay, Kerim) for details on what considerations one should take.
 
 **Side note: full cirle**  
-Keen readers might recognize that many of these constructs overlap greatly with constructs from Object Oriented Programming (OOP). This overlap is not coincidental, because these constructs originate from Simula, the simulation language written by Kristen Nygaard in the early 1960s. 
+Keen readers might recognize that many of these constructs overlap greatly with constructs from Object Oriented Programming (OOP). This overlap is not coincidental, because these constructs originate from Simula, the simulation language written by Kristen Nygaard and Ole-Johan Dahl in the early 1960s to simulate discrete event systems. 
 
 
 
@@ -190,10 +192,73 @@ Once we have created a set of random numbers we can use these to sample a distri
 
 While all numbers might noe be represented in the generated distribution, it still holds true provided that if we were to scale the size of the distribution to thousands of digits then the percentage of times each number occurs would be close to 1% each. 
 
+### Discrete event simulation and Business process simulation
+DES can be used to simualte a wide assortment of systems such as distributed databases, network routers and switches, IP networks, bluetooth networks, a vehicle production line, patient admittance at a hospital, complex queueing sytems, and much more. Provided that DES is able to accurately simulate such a wide collection of diffrent sytems makes it safe to assume that the modeling language and constructs have to be fairly basic in order to capture all of this behaviour. A interesting obervation is also that despite the examples spanning industries and domains is that they are at their core very similar. This is a strengt in that DES has high applicability, but also a weakness in that it is not a very effective or understandable technique for modeling certain systems and processes. One such example are business processes.
+
+Such business processes can be used to strictly govern the permitted behaviour but can also be used as actual executable models in other systems. Modern examples include the structuring of complex infrasructures and other IT operations. Explicit examples can be drawn from the intersection of IT and finance, where these model are used to design actual system implementations. BPMN has become for many become the defacto modeling notation for describing business processes, and with good reason. It is therefore not without fault that we would like to use BPMN as a executable simulation model in DES. Describing complex business processes directly in some formal DES languate can quickly become very complicated and required a good understanding of the DES language itself. Examples can be drawn from the use of colored petri-nets for the modelign and execution of BPS. There have been many works that have tried to address the problem of translating a BPMN model to some executable simulaton model, but as we will see this direct mapping is simply not possible because the simulation model requires additional information that the BPMN model simply does not posess.
+
+[7] does a good job of describing what the shortcoming of BPMN are and further describes some of the efforts that have been made to try and address this.  
+ 
+
+**Upsides**
+Notation that has wide adoption, is easy to use, easy to understand, easy to add or remove elements to the process. 
+**Downsides**
+BPMN was strictly created to be used as a modeling notation and was therefore not designed with formalisms or executability in mind. This leaves much to be desired and required that the adopted standard be extended with custom concepts. These concepts can pertain to its execution in some process management system, but also apply to simulation. For example: 
+1. BPMN does not have any concept for queues.
+2.  It is not possible to assign a priority to a token. 
+3.  Once the activity has started another activity cannot pre-empt the activity
+4.  Not possible to assign inner-task times
+5.  Not possible to assign probabilities to branches
+6.  Not possible to specify routing policies
+
+Despite all of these shortcomings there have been many attempts to rectify these disadvantages or *bridge the gap*. For example:
+1. converting simple BPMN event into elements that have the desired properties, as described in DES. This includes begin and end events, 
+
+
+
+
+### DES input formats
+
+
+#### BPMN 
+{some comments about the popularity of BPMN}
+
+The mined process model is converted from a process-tree to a BPMN model. The benefit of BPMN being that it is widely accepted as the defacto modeling language for business processes and therefore has wide adoption. While useful and well proven as a tool for modeling, it leaves much to be desired when using it as a executable model due to its lacking formalism. This is likely much of the reasoning for why it has had poor adoption as a executable model in BPS. There are works that address this discrepancy by transforming it into a executable model in a different formalism whilst also adding additional attributes and information that was is not natively permitted in BPMN. There are also BPMN extension specifications that address this exact discrepancy, such as the Business Process Simulation Specification. 
+
+This project will use BPMN as the notation for representing 
+
+
+
+#### BPMN as a DES model
+At first glance one might be tempted to assume that BPMN is suitable for use as a executable CPN model, but this is not the case.
+1. DES is heavily depdendent on queues. BPMN has no concept of a queue
+2. BPMN has no provisioning of assigning priorities to tokens
+3. BPMN as no provisioning of probabilities to branches
+4. BPMN has no way of specifying routing policies
+
+Despite these shortcomings, there have been multiple advances that try to bridge this gap. 
+write about bpsim spec
+write about bridging the gap section
+BPMN to CPN 
+
+<find work where bpmn model was transalted on cpn using hierarchical models>
 
 
 
 #### DES models
+Discrete event systems can be modeled by use of many different specifications. The employed model is dependent on the underlying simulation engine and the input that it expects, but also bound to the aforementioned DES concepts. Concepts such as resource modeling, activity modeling, queues, etc. 
+
+In process mining there have been many works that detail the mining of process models which are then subsequently executed in related simulation tools. The most common combination being to use colored petri-nets and CPN tools. Colored petri-nets differ from traditional petri-nets in that they allow for the assignment of attributes to tokens. This overlaps with entitiy attributes in DES. 
+
+While CPN and CPN-tools is a well documented and proven combination i argue that it is far from ideal. [1, 4] are examples of works that employ this method. Here they perform different process mining operations to gather data pertaining to four perspectives. These perspectives and how they relate to explicit concepts within DES will be detailed in a subsequent section. While these works have sound results, they are lacking in explicit details regarding how the different perspecives are merged. They offer their own java implementations in the ProM process mining tool but offer no details as to how the conversion is being performed. Representing business processes as CPN models is far from ideal as these are not only complex and difficult to read but have very little adoption outside academia. While a great simulation tool it is not ideal for the task at hand. 
+
+BPMN is the defacto modeling notation for representing business processes and has reach world wide adoption. While easy to understand it suffers from poor semantics. BPMN was never designed to be used in combination with formal methods and therefore has serious flaws. 
+
+ 
+
+ 
+
+
 Why use bpmn
 issues of using bpmn as a simulation model format
 list reasoning stated in the simulation master thesis
