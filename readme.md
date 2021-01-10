@@ -7,13 +7,22 @@ docker-compose up
 ```
 
 ## Project aim
-Create a proof of concept implementation that uses process mining and business process simuation to perform process enhancement. This is made possible by first discovering a business process model from event data and then enhancing this model with data from additional perspectives. Simulaton allows for the creation of synthetic event logs which can the be analysed to gather metrics about process performance. The simulation model can the be altered to test specific simulation scenarios or alternative process models.
+Create a proof of concept implementation that uses process mining and business process simuation to perform process enhancement. This is made possible by first discovering a business process model from event data and then enhancing this model with data from additional *perspectives*. Each of these perspectives represent a process mining viewpoint. The culmination of *mined* data is then integrated into a single executable model.Business process simulation allows for the creation of synthetic event logs which can the be analysed to gather metrics about process performance. The simulation model can the be altered to test specific simulation scenarios or alternative process models.
 
 We are specifically interested in gathering metrics on throughput times, resource utilization and process cost. The overarching goal being to increase efficiencies. This implies better resoruce utilization, lower costs, and lower throughput times. 
 
-It is important that the simulation model remains true to the underlying process. This is often a critique of experiments that do not start from an existing event log. There is often a clear distinction between the modeled process and the "real" process. Process mining allows us to discover the "real" process model by analysing event data. However, it should be noted that the discovered model is only representative of its input, meaning that any behaviour that is not represented in the event log will not be discovered. Having extensive event logs is therefore a benefit. 
+By use of business process similation we will be able to answer *what if* questions, such as:
+ - What happens if we add or remove resources
+ - Where are our current bottlenecks
+ - How does the process handle a designed input scenario
+ - Where are our current bottlenecks
 
- 
+
+It is important that the simulation model remains true to the underlying process. This is often a critique of experiments that do not start from an existing event log. Simulation models created from a subjective understanding of the *ideal* process can often be misrepresentative of reality. Running simulations on a process that is not true to the *actual* process can yield incorrect results.There is often a clear distinction between the modeled process and the "real" process. Process mining allows us to discover the "real" process model by analysing event data. However, it should be noted that the discovered model is only representative of its input, meaning that any behaviour that is not represented in the event log will not be discovered. Having extensive event logs is therefore a benefit. 
+
+Business process simulation builds directly on the strong fundamentals of discrete event simulation. Discrete event simulation has historically been used 
+
+## Current issues that i am researching and resolving can be seen on the issue tracker  
 
 ## Related works
 
