@@ -1,7 +1,7 @@
 # readme
 Repo containing the docker-compose file and brief project description.
 
-## Run, pressuming dokcer-compose.yml is in cwd
+## Run, pressuming docker-compose.yml is in cwd
 ``` shell
 docker-compose up
 ```
