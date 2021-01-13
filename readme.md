@@ -15,7 +15,6 @@ By use of business process similation we will be able to answer *what if* questi
  - What happens if we add or remove resources
  - Where are our current bottlenecks
  - How does the process handle a designed input scenario
- - Where are our current bottlenecks
 
 
 It is important that the simulation model remains true to the underlying process. This is often a critique of experiments that do not start from an existing event log. Simulation models created from a subjective understanding of the *ideal* process can often be misrepresentative of reality. Running simulations on a process that is not true to the *actual* process can yield incorrect results.There is often a clear distinction between the modeled process and the "real" process. Process mining allows us to discover the "real" process model by analysing event data. However, it should be noted that the discovered model is only representative of its input, meaning that any behaviour that is not represented in the event log will not be discovered. Having extensive event logs is therefore a benefit. 
