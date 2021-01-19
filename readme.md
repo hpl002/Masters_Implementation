@@ -19,7 +19,13 @@ By use of business process similation we will be able to answer *what if* questi
 
 It is important that the simulation model remains true to the underlying process. This is often a critique of experiments that do not start from an existing event log. Simulation models created from a subjective understanding of the *ideal* process can often be misrepresentative of reality. Running simulations on a process that is not true to the *actual* process can yield incorrect results.There is often a clear distinction between the modeled process and the "real" process. Process mining allows us to discover the "real" process model by analysing event data. However, it should be noted that the discovered model is only representative of its input, meaning that any behaviour that is not represented in the event log will not be discovered. Having extensive event logs is therefore a benefit. 
 
-Business process simulation builds directly on the strong fundamentals of discrete event simulation. 
+Business process simulation builds directly on the strong fundamentals of discrete event simulation as the resulting simulation model is in essence run on a discrete event simulation engine. While there are many different vendors and tools that offer simulation engines designed for simulating business processes, the open source community does not have a tool with comparable maturity. This problem is partly being addressed in this project by creating a wrapper for the *scylla* business process simulator that takes a bpSIM 2.0 specification as input and produces a *synthetic log* as output. This is then wrapped in a http server and offered as a docker container.
+
+I argue that having complete transparency is especially imporant when performing business process simulation due to the poor semantics of BPMN. This requires that the process model is translated into a format that is executable. 
+
+Simulating business processes is especially difficult due to a series of problems, the core issue being the lack of formal verification BPMN. There are other business process modeling notations which have well declared semantics and can therefore be formally verified, however these do not have the same adoption.
+
+
 
 ## Current issues that i am researching and resolving can be seen on the issue tracker  
 
@@ -385,3 +391,15 @@ Please see the swagger.yaml file in the repo for available endpoints.
 
 
 
+
+## On the issue of formal verification versus simulation based verification
+Simulation based verification versus formal verification. 
+
+To what extent is it required that our business process can be formally verified.
+
+In formal verification we define properties and then use model checking techniques to try and genereate any set of possible inputs that breaks the conformance of these properties. We essentially find all possible input and test if any of these break our condition. 
+In simulation we define a specific subset of inputs and then tests wheter our properties hold for these inputs. The input space if naturally far smaller then that of the formal verification, but they also serve two different purposes.
+
+Formal verification is used to ensure that a system cannot reach some unwanted state. Such verification techniques are typically used for critical systems such as flight controllers in aircrafts, large financial systems, and military applications. Any system where there cannot be room for error should be formally verified. However, i would argue that formal verification is not required for the usecases targeted for this project due to a couple of reasons. 
+1. Simulation in project is only intended to be used as a tool to explore alternatives. Naively imlpementing a process model that has unwanted behaviour is not a possible scenario and therefore not a risk. Performing formal verification of any and all implemented processes is endorsed.
+   This then means that this tool could be used in a possible workflow where alternatives can be tested and then once a suitable process model has been located then this can be transalated into a formalism and tested.
