@@ -212,7 +212,7 @@ DES can be used to simualte a wide assortment of systems such as distributed dat
 Such business processes can be used to strictly govern the permitted behaviour but can also be used as actual executable models in other systems. Modern examples include the structuring of complex infrasructures and other IT operations. Explicit examples can be drawn from the intersection of IT and finance, where these model are used to design actual system implementations. BPMN has become for many become the defacto modeling notation for describing business processes, and with good reason. It is therefore not without fault that we would like to use BPMN as a executable simulation model in DES. Describing complex business processes directly in some formal DES languate can quickly become very complicated and required a good understanding of the DES language itself. Examples can be drawn from the use of colored petri-nets for the modelign and execution of BPS. There have been many works that have tried to address the problem of translating a BPMN model to some executable simulaton model, but as we will see this direct mapping is simply not possible because the simulation model requires additional information that the BPMN model simply does not posess.
 
 [7] does a good job of describing what the shortcoming of BPMN are and further describes some of the efforts that have been made to try and address this.  
- 
+
 
 **Upsides**
 Notation that has wide adoption, is easy to use, easy to understand, easy to add or remove elements to the process. 
@@ -403,3 +403,115 @@ In simulation we define a specific subset of inputs and then tests wheter our pr
 Formal verification is used to ensure that a system cannot reach some unwanted state. Such verification techniques are typically used for critical systems such as flight controllers in aircrafts, large financial systems, and military applications. Any system where there cannot be room for error should be formally verified. However, i would argue that formal verification is not required for the usecases targeted for this project due to a couple of reasons. 
 1. Simulation in project is only intended to be used as a tool to explore alternatives. Naively imlpementing a process model that has unwanted behaviour is not a possible scenario and therefore not a risk. Performing formal verification of any and all implemented processes is endorsed.
    This then means that this tool could be used in a possible workflow where alternatives can be tested and then once a suitable process model has been located then this can be transalated into a formalism and tested.
+
+# How do petri nets align with business processes. What does the mapping look like?
+
+Petri-nets are bipartite graphs consisting of places and transitions. The fundamental concept being that the transition takes a token from each of its input places and moves it to each of its output places. The transition itself does not hold any state. The rules of a petri-net are at their core very simplistic, but provided enough additional complexity one can successfully model advanced construct such as networks. There are also additonal extensions which add another complexity to the core petri net, such as coloured petri nets and timed petri nets.
+
+Places can hold some state (tokens) while transitions cannot. All tokens must flow from some state S1 to S2 via a transition T1.
+This is the basic rule of a petri net.
+
+The petri net can further be described as being composed of four components: Places, Transitions, Input, and Output.
+
+The input being some function that maps tokens from places to transitions, and outputs being some function that maps tokens from transitions to places.
+
+**Places** are usually noted as circles or ovals. These contain some number of tokens. 
+
+**Tokens** are used as the control flow mechanism.
+
+
+
+Business process execution shares many similarities with the control-flow mechanism from petri nets, but additional elements such that advanced control flow mechanisms can be drawn more effectively.
+
+
+
+**Coloured petri nets** allow for tokens of arbitrary complexity. The traditional petri-net is said to only have *black* tokens. The concept of coloured tokens can be matched to that of object from object oriented programming. We can assign any number of attributes to a token which can then impact the control flow.
+
+
+
+**Timed petri nets** add the concept of time to transitons. Meaning that we can for example declare that a transition is to take 3 cycles before it moves tokens from its input to its output.
+
+
+
+**Conditional transitions** allow for the use of logit to dictate the control flow of tokens. Here we can for example check for some token attribute and steer the flow accordingly.
+
+
+
+### Modeling complex processes by use of petri nets
+Provided that petri nets are simple bipartite graphs we have very few tools to use when modeling complex constructs. The *go to* method for modeling complex constructs in petri nets is by use of hierarchical nets, which are in effect the same as sub-processes from BPMN. This allows for reuse and abstraction. One way of modeling similar constructs as offered by BPMN would be to create a series of hierarchical nets that represent the different modeling constructs available in BPMN and then use these while modeling. 
+
+The key notion of using high level modeling notations is to abstract away control flows that look like this: ![img](https://www.researchgate.net/profile/Marlon-Dumas/publication/27467826/figure/fig8/AS:309997339725856@1450920533679/Mapping-of-a-subprocess-P-that-may-be-cancelled-due-to-the-cancellation-of-its-parent_W640.jpg)
+
+As mentioned the mapping is not explicit as BPMN lacks proper semantics. This makes the transformation of certain BPMN constructs difficult if not impossible. There have been multiple works that address this issue and even propose contributions that would resolve this in the official specification, but this has yet to be addressed by the BPMN governing body. This leaves much to be desired as using BPMN models as the representational format for processes would be highly advantageous as these models are much more compact and quite often readable by non-experts. 
+
+To summarize, the core issue is that petri-nets are difficult to read. This is subjective, but arguably the truth if the reader has not had extensive experiences with petri-nets from before. 
+Due to semantics we cannot do a 1-1 transformation from BPMN to the petri-net formalism as some BPMN constructs are too poorly defined. However, there is small but *core* subset of BPMN which can be successfully be used.
+To further proove the advantage that comes with using BPMN as the representational format i will demonstrate this by use of example.
+
+From *Process Mining: Discovery, Conformance and Enhancement of Business Processes* by Will van der Aalst i have borrowed the *running example*. This example corresponds to the handling of requests for compensation. Overall a fairly simple process.  
+
+### Example: request for compensation .xes log excerpt
+```XML
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XES version 1.0 -->
+<!-- Created by Fluxicon Nitro (http://fluxicon.com/nitro/ -->
+<!-- (c) 2010 Fluxicon Process Laboratories / http://fluxicon.com/ -->
+<log xes.version="1.0" xmlns="http://code.deckfour.org/xes" xes.creator="Fluxicon Nitro">
+	<extension name="Concept" prefix="concept" uri="http://code.deckfour.org/xes/concept.xesext"/>
+	<extension name="Time" prefix="time" uri="http://code.deckfour.org/xes/time.xesext"/>
+	<extension name="Organizational" prefix="org" uri="http://code.deckfour.org/xes/org.xesext"/>
+	<global scope="trace">
+		<string key="concept:name" value="name"/>
+	</global>
+	<global scope="event">
+		<string key="concept:name" value="name"/>
+		<string key="org:resource" value="resource"/>
+		<date key="time:timestamp" value="2011-04-13T14:02:31.199+02:00"/>
+		<string key="Activity" value="string"/>
+		<string key="Resource" value="string"/>
+		<string key="Costs" value="string"/>
+	</global>
+	<classifier name="Activity" keys="Activity"/>
+	<classifier name="activity classifier" keys="Activity"/>
+	<string key="creator" value="Fluxicon Nitro"/>
+	<trace>
+		<string key="concept:name" value="3"/>
+		<string key="creator" value="Fluxicon Nitro"/>
+		<event>
+			<string key="concept:name" value="register request"/>
+			<string key="org:resource" value="Pete"/>
+			<date key="time:timestamp" value="2010-12-30T14:32:00.000+01:00"/>
+			<string key="Activity" value="register request"/>
+			<string key="Resource" value="Pete"/>
+			<string key="Costs" value="50"/>
+		</event>
+		<event>
+			<string key="concept:name" value="examine casually"/>
+			<string key="org:resource" value="Mike"/>
+			<date key="time:timestamp" value="2010-12-30T15:06:00.000+01:00"/>
+			<string key="Activity" value="examine casually"/>
+			<string key="Resource" value="Mike"/>
+			<string key="Costs" value="400"/>
+		</event>
+...
+```
+
+### Example: process model representational format
+
+#### Fluxicon disco
+The quickes and easist way to go from event log to model is arguably by use of the fluxicon disco tool. A easy to use commercial tool that uses a *fuzzy miner* to perform process discovery, and then renders this in a easy to read format. The output model is simply intended to output some of the more important features of the input log and is not directly reusable as it does not conform to any official specification , i.e., has no explicit semantics.
+
+![](./disco.png)
+
+ 
+#### Process-discovery service
+Through the developed process discovery service we can mine a process-tree from the input log by use of the inductive miner.
+This process tree can then be transformed and exported as either a BPMN model or petri-net. 
+
+##### BPMN
+![](./bpmn.png)
+> visualized in camunda modeler
+
+##### Petri-net
+![](./petri-net.png)
+> visualized in ProM
