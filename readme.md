@@ -515,3 +515,10 @@ This process tree can then be transformed and exported as either a BPMN model or
 ##### Petri-net
 ![](./petri-net.png)
 > visualized in ProM
+
+
+### Basic business process simulation workflow
+![](./diagram_2.svg)
+
+As illustrated by this very simple process model we can see that the basic workflow is comprised of three activities which can iterate.
+Here i will briefly explain what sub-activities these main activities are comprised of as well.
