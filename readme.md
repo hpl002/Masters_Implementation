@@ -7,7 +7,91 @@ docker-compose up
 ```
 
 ## Project aim
-Create a proof of concept implementation that uses process mining and business process simuation to perform process enhancement. This is made possible by first discovering a business process model from event data and then enhancing this model with data from additional *perspectives*. Each of these perspectives represent a process mining viewpoint. The culmination of *mined* data is then integrated into a single executable model.Business process simulation allows for the creation of synthetic event logs which can the be analysed to gather metrics about process performance. The simulation model can the be altered to test specific simulation scenarios or alternative process models.
+Create a proof of concept implementation that uses process mining and model transformation techniques to automatically configure a coloured petri-net model for use in business process simulation. The configured model is simulated in CPN Tools Access 2.0 and its execution logs analyzed for key performance metrics. These metrics give us actionable inights into process behaviour under certain conditions, which then allows for informed decisions regarding real world process alterations.
+
+Process mining is used as a tool for creating the initial process model. The truth often being that the *real* process can vary from the *modeled* process. Running simulations on a process model that is not representative of the real process will produce results of little value. Model transformations are used to transform the representational model into the execution model. More precicely, to translate a core subset of bpSIM that has assigned semantics into a petri-net. BpSIM being an extension of BPMN 2.0 that has additional attributes pertaining to simulation. CPN tools is a tools for simulating coloured petri nets and has a long and proven tradition in academia. The petri-net is a formal modeling langauge typically used for for specifying varying systems, protocols, and processes. BPMN is arguably the de facto modeling notation for processes. Petri-nets are formal but have poor expessiveness. BPMN has good expressiveness but poor semantics. A subset of BPMN can be used because it has assigned semantics, but it still has missing simulation attributes. BpSim addressed this discrepancy.
+
+These techniques result in a workflow that is effective, but very resource expensive. My objective being to streamline these techniques and mathods into a single semi-automatic workflow. There are no open source tools that offer this exact combination of techniques and methods in a single workflow. While possible to perform these steps manually, it would be extremely resource expensive and thereby inhibit any form if quick iteration.
+
+-------
+
+
+Business process simulation is a process enhancement technique to investigate performance metrics of different process alterations. It allows for resource effective simulations and thereby estimations of process alteration. In short, we can test different models, extract key performance indicators from the simulation results, and then compare the tested simulation models in order to get an understanding of how some alterations might impact the real process. Simulation has been proven to be an effective measure to get actionable insights in business but also in other domains.
+
+
+There are many commercial and free applications that allow for process simulation. However, i argue that these have two concerns. The primary critique being the lack of formalisms and the closed source nature of commercial tools, the second being that they do not use historical data to create the initial model. The commercial tools often use BPMN as the input model and provide no information as to how the model is transformed into the executable simulation model and often do not describe what simulation engine they are using underneath. The tools also do not support the use of historical data to create the initial model. From process mining we have learned that there are often large discrepancies between the *modeled* process and the *real* process. Running simulations on model that are not representative of the real process has litte value. 
+
+Formal validation allows for the the validation of some process or system via mathematical proof. It is based on the idea that the model describes permitted attributes which are then tested agains some abritrary number of inputs. If the validation algorithm cannot invalidate the model by creating a combination of inputs that lead to some invalid model state then it is considered valid. Formal validation is used as a means to verify the behavior of mission critical systems. These are systems employed in crucial infrastructure, military technology, healhcare, financial systems, and fundamental computer science. 
+
+Low risk environmets do not require this formal approach as the side effect of any unintended bahaviour has allowed consequences. However high risk environments require it. The petri-net is a formal modelling language that can be used to describe systems and processes. CPN Tools allows for the execution of such petri nets, and has become a well respected tool in academia with a long and proven tradition. The petri-net is a bipartite graph and therefore lacks expressiveness compared to BPMN. Modeling complex constructs and processes in petri-nets results in models which are very difficult to read and likely unreadable by non-expers. BPMN may be considered the de facto process modeling notation, what it gains in expressiveness and readibility it lacks in formal defintions.
+
+This leaves us at a crossroad. We require that our process is modeled as a petri net such that it can be formally verified, but such models are cumbersome to create and very difficult to read by non-experts. 
+
+One solution is to have multiple sets of models such that all stakeholders can communicate effectively. A BPMN model as a repersentational model and then a petri-net as the formal model. This approach requires continious model transformation to ensure that the models are always in sync. This syncronization is made possible by automatic model to model transformations. Model transformation are only possible with models that have strict semantics. This therefore inhibits the use of the entire BPMN specificaiton as it lacks these semantics. However, there have been written numerous works that describe how a core subset of BPMN may be transformed to petri nets.
+
+ 
+ 
+
+
+
+
+
+Simulation is a useful tool, but configuring simulation models can be very resource expensive and require expertise that spans many domains. The simulation activity requires stakeholders with business and process understanding and also professionals who are well versed in modelling. The simulation model has to conform to the simulation engines input specification. There are many freely available simulation engines. The common pattern being that these are all built upon the notion of *discrete event simulation*, however they take vastly different approaches. These approaches can perhaps be split into commarcial and academic tools.
+
+The main characteristics of these two *camps* being that commercial tools are built to be easy to use, but offer no support for model validation and are not based on formalisms. The commercial tools are often made available via some larger 
+
+ Academic tools are are often built on formalisms but are very difficult to configure. In low-risk environment where we do not need the soundness of formal validation then we can safely use existing commercial tools. While these are easy to use they are not based on formalisms and can therefore not be validation or trusted in high risk environments.
+
+
+
+
+
+Having the capacity to perform formal validation is crucial in high risk environments such as healthcare, military applications, the financial sector, infrastructure, and more. Formal validation is used as a means to ensure that the model does not reach some state that invalidates its intended properties. In practice this is performed by specifying the model in some formal language and then validating it via mathematical proof. In low-risk environments where the possibility of errors is accepted then this formal approach is not needed, but for high risk environments it is absolutely mandatory. 
+
+
+
+
+In practice they are implemented using some informal specification as the input model and then run on some discrete event simulation engine that has no capacity for formal validation. This approach has two flaws, the first being that we have no 
+
+
+
+This effectively means that we cannot be certain that our designed simulation model does not have some fatal flaw. The model designer naively designs a new process or models what he/she perceives to be the current process and then designs a series of inputs that represent some imagined scenario. This approach has two flaws. Firstly, we only test for 
+
+
+Formal validation is used to prevent this exact effect by describing model attributes and then testing these attributes against a large solution space. If the model attributes hold given the provided inputs then the model is considered valid. The importance of formal validation in high-risk environments is undisputed as it allows model validation via mathematical proof. Typcial application being crucial infrastructure, 
+
+
+
+
+ have no idea as to how our simulation is executed on the underlying model and if the model itself is valid. 
+
+Having the capacity to perform formal validation means that we can describe model attributes and then mathematically prove that there exits no state in which the model ends up invalidating these attributes. 
+
+Before discussing these approaches we should mention some required properties of a simulation engine and tool.
+- the 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+Much of the simulation model is based directly on historical data. This approach has far better accuracies than simply configuring a model based on the perception of what the current process is. From process mining we have learned that the *ideal* or *planned* process can be far from the *real* process. Event logs give us access and insights into the latter.
+
+Creating simulation models based on event logs is not a new approach and has for long been a viable solution in the process mining and business process simulation space. However, there are many shortcomings of current approaches. Academia and industry has taken slightly diverging approaches to process simulation, each of the groups solving some difficlulties of current practices while omiting to resolve others.
+
+
+
+
+perform process enhancement. The 
+
+This is made possible by first discovering a business process model from event data and then enhancing this model with data from additional *perspectives*. Each of these perspectives represent a process mining viewpoint. The culmination of *mined* data is then integrated into a single executable model.Business process simulation allows for the creation of synthetic event logs which can the be analysed to gather metrics about process performance. The simulation model can the be altered to test specific simulation scenarios or alternative process models.
 
 We are specifically interested in gathering metrics on throughput times, resource utilization and process cost. The overarching goal being to increase efficiencies. This implies better resoruce utilization, lower costs, and lower throughput times. 
 
@@ -520,5 +604,11 @@ This process tree can then be transformed and exported as either a BPMN model or
 ### Basic business process simulation workflow
 ![](./diagram_2.svg)
 
-As illustrated by this very simple process model we can see that the basic workflow is comprised of three activities which can iterate.
-Here i will briefly explain what sub-activities these main activities are comprised of as well.
+Here i have drawn up two BPMN workflows. The first workflow demonstrates the current state of business process simulation in CPN tools. Before going in depth on these models it should first be stated that CPN Tools offers an easy to use GUI, but this is strictly aimed at the modeling and simulation activity. It does not offer facilities for extrating information from historical data, i.e., process logs. One would therefore have to first manually perform the necessary process simulation and then subsequently transform this into a CPN model. This makes iteration a slow and resource intensive process.
+
+This tool aims to maked it easier and faster to create and configure such simulation models, thus making it easier and faster to perform iterations.
+
+As illustrated by this very simple process model we can see that the basic workflow is comprised of activities that are performed in series. After the last activity we have the option to either iterate or end.
+
+
+
